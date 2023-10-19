@@ -2,6 +2,8 @@ from flask import Flask
 from flask import request, render_template, send_from_directory, redirect, url_for, flash
 from flask import session
 
+from network import Network
+
 app = Flask(__name__)
 
 @app.route("/")
