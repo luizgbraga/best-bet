@@ -1,5 +1,4 @@
-import pandas as pd
-from collect_data import DataCollector
+from data.collect_data import DataCollector
 
 
 class DataProcessor:
