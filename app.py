@@ -4,6 +4,7 @@ from flask import session
 
 from data.collect_data import DataCollector
 from data.process_data import DataProcessor
+from util.time_converter import TimeConverter
 
 app = Flask(__name__)
 
@@ -17,14 +18,13 @@ def inputs():
     if request.method == 'POST':
         home_team_id = DataCollector.get_club_id(request.form['home-team'])
         visit_team_id = DataCollector.get_club_id(request.form['visit-team'])
-        hour = request.form['hour']
-        tournment_round = request.form['round']
-        input_data = DataProcessor.format_input_data(home_team_id, visit_team_id, hour, tournment_round)
+        hour = TimeConverter.str_to_float(request.form['hour'])
+        round = int(request.form['round'])
+        input_data = DataProcessor.format_input_data(home_team_id, visit_team_id, hour, round)
         print(input_data)
-
         return render_template('inputs.html')
     
-    return render_template('inputs.html', home_teams=clubs, visit_teams=clubs, hours=[1, 24])
+    return render_template('inputs.html', home_teams=clubs, visit_teams=clubs, hours=TimeConverter.all_times())
 
 
 if __name__ == "__main__":
