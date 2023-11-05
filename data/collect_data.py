@@ -19,6 +19,13 @@ class DataCollector():
         print(f"Found {len(DataCollector.club_ids.keys())} clubs at {DataCollector.csv_name}.\n\n")
 
     @staticmethod
+    def get_club_id(club_name):
+        if not DataCollector.club_ids:
+            DataCollector.update_club_id()
+
+        return DataCollector.club_ids[club_name]
+
+    @staticmethod
     def get_all_clubs():
         if not DataCollector.club_ids:
             DataCollector.update_club_id()
