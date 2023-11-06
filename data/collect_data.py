@@ -1,4 +1,5 @@
 import pandas as pd
+from util.time_converter import TimeConverter
 
 class DataCollector():
     csv_name = "brasileirao.csv"
@@ -38,6 +39,7 @@ class DataCollector():
     @staticmethod
     def generate_training_and_test_data():
         data_frame = DataCollector.total_data.copy()
+        data_frame['hora'] = data_frame['hora'].map(TimeConverter.str_to_float)
 
         testing_data = data_frame.sample(frac=0.1)
         training_data = data_frame.drop(testing_data.index)
@@ -63,4 +65,4 @@ class DataCollector():
                     'output_training_data': output_training_data,
                     'input_testing_data': input_testing_data,
                     'output_testing_data': output_testing_data
-                }        
+                }
