@@ -39,7 +39,8 @@ class DataCollector():
     @staticmethod
     def generate_training_and_test_data():
         data_frame = DataCollector.total_data.copy()
-        data_frame['hora'] = data_frame['hora'].map(TimeConverter.str_to_float)
+        data_frame['hora'] = data_frame['hora'].map(TimeConverter.str_to_float)/24
+        data_frame['rodada'] /= 38
 
         testing_data = data_frame.sample(frac=0.1)
         training_data = data_frame.drop(testing_data.index)
