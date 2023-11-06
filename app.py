@@ -22,7 +22,7 @@ def inputs():
         round = int(request.form['round'])
         input_data = DataProcessor.format_input_data(home_team_id, visit_team_id, hour, round)
         print(input_data)
-        return render_template('inputs.html')
+        return render_template('outputs.html')
     
     return render_template('inputs.html', home_teams=clubs, visit_teams=clubs, hours=TimeConverter.all_times())
 
