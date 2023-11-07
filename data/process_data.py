@@ -1,38 +1,21 @@
 from data.collect_data import DataCollector
-
+from util.transpose import transpose
 
 class DataProcessor:
-    @staticmethod
-    def dataframe_to_array_transformer(dataframe):
-        """
-        dataframe: pandas.DataFrame
+    def __init__(self, csv_name):
+        self.data_collector = DataCollector(csv_name)
 
-        returns: [rows]
-            rows: A list of values for each column
-        """
-
-        matrix = dataframe.values.tolist()
-
-        return matrix
+    def generate_tuples(self):
+        data = self.data_collector.generate_training_and_test_data()
+        input_training_list = [transpose(lst) for lst in data['input_training_data'].values.tolist()]
+        output_training_list = [transpose(lst) for lst in data['output_training_data'].values.tolist()]
+        input_testing_list = [transpose(lst) for lst in data['input_testing_data'].values.tolist()]
+        output_testing_list = [transpose(lst) for lst in data['output_testing_data'].values.tolist()]
+        return list(zip(input_training_list, output_training_list)), list(zip(input_testing_list, output_testing_list))
     
-    @staticmethod
-    def generate_tuple(input_data, output_data):
-        input_array = DataProcessor.dataframe_to_array_transformer(input_data)
-        output_array = DataProcessor.dataframe_to_array_transformer(output_data)
-
-        try:
-            input_and_output_list = []
-            for index in range(len(input_array)):
-                input_and_output_list.append((input_array[index], output_array[index]))
-
-            return input_and_output_list
-        except IndexError:
-            print("The size of input_data and output_data mismatched.")
-            return None
-        
-    @staticmethod
-    def output_to_array(output):
+    def output_to_list(self, output):
         bets = {}
+
         bets['Ambos marcam'] = output[0][0]
         bets['Mais de 1 gol'] = output[1][0]
         bets['Mais de 2 gols'] = output[2][0]
@@ -43,23 +26,15 @@ class DataProcessor:
         bets['Diferença maior que 3 gols'] = output[7][0]
         bets['Sem gols'] = output[8][0]
 
-        bets_to_do = []
-
-        for key, value in bets:
-            if value == 1:
-                bets_to_do.append(key)
+        bets_to_do = [key for key, value in bets.items() if value == 1]
 
         return bets_to_do
-    
-    @staticmethod
-    def format_input_data(home_club_id, visitor_club_id, hour, round):
+
+    def format_input_data(self, home_club_id, visitor_club_id, hour, round):
         input_data = [[hour/24], [round/38]]
 
-        if not DataCollector.club_ids:
-            DataCollector.update_club_id()
-
-        for id in range(len(DataCollector.club_ids)):
-            if home_club_id == id + 1 or visitor_club_id == id + 1:
+        for _, value in self.data_collector.club_ids.items():
+            if home_club_id == value or visitor_club_id == value:
                 input_data.append([1])
             else:
                 input_data.append([0])

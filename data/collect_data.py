@@ -2,68 +2,31 @@ import pandas as pd
 from util.time_converter import TimeConverter
 
 class DataCollector():
-    csv_name = "brasileirao.csv"
-    total_data = pd.read_csv(csv_name, index_col='ID')
-    club_ids = {}
+    def __init__(self, csv_name):
+        self.total_data = pd.read_csv(csv_name)
+        self.club_names = self.total_data['mandante'].unique().tolist()
+        self.club_ids = { club_name: i + 1 for i, club_name in enumerate(self.club_names) }
 
-    @staticmethod
-    def update_club_id():
-        DataCollector.total_data = pd.read_csv(DataCollector.csv_name)
-        club_names = DataCollector.total_data['mandante'].unique().tolist()
+    def get_club_id(self, club_name):
+        return self.club_ids[club_name]
 
-        i = 1
-        for club in club_names:
-            if club not in DataCollector.club_ids.keys():
-                DataCollector.club_ids[club] = i
-                i += 1
+    def get_club_names(self):
+        return sorted(self.club_names)
 
-        print(f"Found {len(DataCollector.club_ids.keys())} clubs at {DataCollector.csv_name}.\n\n")
+    def generate_training_and_test_data(self):
+        df = self.total_data.copy()
+        df['hora'] = df['hora'].map(TimeConverter.str_to_float)/24
+        df['rodada'] /= 38
 
-    @staticmethod
-    def get_club_id(club_name):
-        if not DataCollector.club_ids:
-            DataCollector.update_club_id()
+        testing_data = df.sample(frac=0.1)
+        training_data = df.drop(testing_data.index)
 
-        return DataCollector.club_ids[club_name]
-
-    @staticmethod
-    def get_all_clubs():
-        if not DataCollector.club_ids:
-            DataCollector.update_club_id()
-    
-        club_names = list(DataCollector.club_ids.keys())
-        club_names.sort()
-
-        return club_names
-    
-    @staticmethod
-    def generate_training_and_test_data():
-        data_frame = DataCollector.total_data.copy()
-        data_frame['hora'] = data_frame['hora'].map(TimeConverter.str_to_float)/24
-        data_frame['rodada'] /= 38
-
-        testing_data = data_frame.sample(frac=0.1)
-        training_data = data_frame.drop(testing_data.index)
-        
-        if not DataCollector.club_ids:
-            DataCollector.update_club_id()
-
-        input_columns = ['hora', 'rodada']
-        for i in range(len(DataCollector.club_ids)):
-            input_columns.append(f"id{i+1}")
-
-        output_columns = ["bs", "mt1g", "mt2g", "mt3g",
-                          "mt4g", "mt5g", "dgt2", "dgt3",
-                          "zero_gols"]
-        
-        input_training_data = training_data[input_columns]
-        output_training_data = training_data[output_columns]
-        input_testing_data = testing_data[input_columns]
-        output_testing_data = testing_data[output_columns]
+        input_columns = ['hora', 'rodada'] + [f'id_{i + 1}' for i in range(len(self.club_ids))]
+        output_columns = ["bs", "mt1g", "mt2g", "mt3g", "mt4g", "mt5g", "dgt2", "dgt3", "zg"]
 
         return  {
-                    'input_training_data': input_training_data,
-                    'output_training_data': output_training_data,
-                    'input_testing_data': input_testing_data,
-                    'output_testing_data': output_testing_data
+                    'input_training_data': training_data[input_columns],
+                    'output_training_data': training_data[output_columns],
+                    'input_testing_data': testing_data[input_columns],
+                    'output_testing_data': testing_data[output_columns]
                 }

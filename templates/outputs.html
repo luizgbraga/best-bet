@@ -94,7 +94,9 @@
                 <h2>Resultados</h2>
                 <h3>Melhores apostas para você</h3>
                 <ul>
-                  <li>map here</li>
+                    {% for bet in bets %}
+                        <li>{{ bet }}</li>
+                    {% endfor %}
                 </ul>
                 <div class="flex flex-row ">
                   <button id="button" href="/inputs">Voltar</button>
