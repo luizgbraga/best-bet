@@ -9,30 +9,31 @@ from network.network import Network
 
 app = Flask(__name__)
 
+CSV_NAME = 'brasileirao.csv'
+
 @app.route("/")
 def hello_world():
     return "<p>Hello, World!</p>"
 
 @app.route('/inputs', methods=['GET', 'POST'])
 def inputs():
-    clubs = DataCollector.get_all_clubs()
+    data_collector = DataCollector(CSV_NAME)
+    data_processor = DataProcessor(CSV_NAME)
     if request.method == 'POST':
-        home_team_id = DataCollector.get_club_id(request.form['home-team'])
-        visit_team_id = DataCollector.get_club_id(request.form['visit-team'])
+        home_team_id = data_collector.get_club_id(request.form['home-team'])
+        visit_team_id = data_collector.get_club_id(request.form['visit-team'])
         hour = TimeConverter.str_to_float(request.form['hour'])
         round = int(request.form['round'])
-        input_data = DataProcessor.format_input_data(home_team_id, visit_team_id, hour, round)
+        input_data = data_processor.format_input_data(home_team_id, visit_team_id, hour, round)
         net = Network([len(input_data), 60, 9])
-        training_data = DataCollector.generate_training_and_test_data()
-        train = DataProcessor.generate_tuple(training_data['input_training_data'], training_data['output_training_data'])
-        test = DataProcessor.generate_tuple(training_data['input_testing_data'], training_data['output_testing_data'])
-        print(train, test)
+        train, test = data_processor.generate_tuples()
+        print(train[0], test[0])
         net.SGD(train, 30, 10, 3.0, test_data=test)
         output = net.feedforward(input_data)
-        print(output)
-        return render_template('inputs.html')
+        bets = data_processor.output_to_list(output)
+        return render_template('outputs.html', bets=bets)
     
-    return render_template('inputs.html', home_teams=clubs, visit_teams=clubs, hours=TimeConverter.all_times())
+    return render_template('inputs.html', home_teams=data_collector.get_club_names(), visit_teams=data_collector.get_club_names(), hours=TimeConverter.all_times())
 
 if __name__ == "__main__":
     app.run(debug=True)

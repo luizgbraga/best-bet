@@ -1,11 +1,7 @@
 class TimeConverter:
     @staticmethod
     def str_to_float(time):
-        """
-        time: str
-
-        returns: float
-        """
+        # time must be in format HH:MM
         hour, minute = time.split(':')
         hour = int(hour)
         minute = int(minute)

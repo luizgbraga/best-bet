@@ -36,6 +36,8 @@ class Network(object):
                         hits += 1
                     elif result[i][j] == 1 and y[i][j] == 0:
                         misses += 1
+        if (hits + misses == 0):
+            return 0
         percentage_hit = hits / (hits + misses)
         return percentage_hit
 

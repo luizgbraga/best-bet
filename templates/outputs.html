@@ -54,18 +54,15 @@
             #container h2 {
                 margin-bottom: 20px;
             }
-            #container form {
-                display: flex;
-                flex-direction: column;
-                justify-content: center;
-                align-items: center;
+            #container h3 {
+                margin-bottom: 10px;
             }
-            #container form select {
+            #container ul {
                 margin-bottom: 10px;
                 width: 300px;
                 height: 20px;
             }
-            #container form button {
+            #container button {
                 width: 100px;
                 height: 30px;
                 background-color: cadetblue;
@@ -75,14 +72,10 @@
                 cursor: pointer;
                 margin-top: 20px;
             }
-            #container form button:hover {
+            #container button:hover {
                 background-color: #fff;
                 color: cadetblue;
                 border: 1px solid cadetblue;
-            }
-            #container form label {
-                margin-bottom: 5px;
-                font-weight: 600;
             }
         </style>
     </head>
@@ -98,34 +91,17 @@
         </div>
         <div id="content">
             <div id="container">
-                <h2>Entradas</h2>
-                <form  action="{{ url_for('inputs') }}" method="POST" enctype="multipart/form-data">
-                    <label for="home-team">Time da casa</label>
-                    <select name="home-team">
-                        {% for team in home_teams %}
-                            <option value="{{ team }}">{{ team }}</option>
-                        {% endfor %}
-                    </select>
-                    <label for="visit-team">Time visitante</label>
-                    <select name="visit-team">
-                        {% for team in visit_teams %}
-                            <option value="{{ team }}">{{ team }}</option>
-                        {% endfor %}
-                    </select>
-                    <label for="hour">Horário</label>
-                    <select name="hour">
-                        {% for hour in hours %}
-                            <option value="{{ hour }}">{{ hour }}</option>
-                        {% endfor %}
-                    </select>
-                    <label for="round">Rodada</label>
-                    <select name="round">
-                        {% for i in range(38) %}
-                            <option value="{{ i }}">{{ i }}</option>
-                        {% endfor %}
-                    </select>
-                    <button type="submit">Confirmar</button>
-                </form>
+                <h2>Resultados</h2>
+                <h3>Melhores apostas para você</h3>
+                <ul>
+                    {% for bet in bets %}
+                        <li>{{ bet }}</li>
+                    {% endfor %}
+                </ul>
+                <div class="flex flex-row ">
+                  <button id="button" href="/inputs">Voltar</button>
+                  <button id="button" href="./outputs.html">Confirmar</button>
+                </div>
             </div>
         </div>
     </body>
