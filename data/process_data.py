@@ -26,7 +26,7 @@ class DataProcessor:
         bets['Diferença maior que 3 gols'] = output[7][0]
         bets['Sem gols'] = output[8][0]
 
-        bets_to_do = [key for key, value in bets.items() if value == 1]
+        bets_to_do = [key for key, value in bets.items() if value > 0.5]
 
         return bets_to_do
 

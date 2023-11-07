@@ -19,7 +19,7 @@ class Network(object):
 
     def feedforward(self, a):
         for b, w in zip(self.biases, self.weights):
-            a = sigmoid(np.dot(w, a)+b)
+            a = sigmoid(np.dot(w, a) + b)
         return a
     
     def cost_derivative(self, output_activations, y):
@@ -32,9 +32,9 @@ class Network(object):
             result = self.feedforward(x)
             for i in range(result.size):
                 for j in range(result[0].size):
-                    if result[i][j] == 1 and y[i][j] == 1:
+                    if result[i][j] > 0.5 and y[i][j] == 1:
                         hits += 1
-                    elif result[i][j] == 1 and y[i][j] == 0:
+                    elif result[i][j] > 0.5 and y[i][j] == 0:
                         misses += 1
         if (hits + misses == 0):
             return 0
