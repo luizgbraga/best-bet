@@ -1,16 +1,18 @@
 from flask import Flask
-from flask import request, render_template, send_from_directory, redirect, url_for, flash, redirect
+from flask import request, render_template, redirect, url_for, redirect
 from flask import session
+import asyncio
 
 from data.collect_data import DataCollector
 from data.process_data import DataProcessor
 from util.time_converter import TimeConverter
 from network.network import Network
+from network.train import Train
 
 app = Flask(__name__)
 app.secret_key = 'abcd'
 
-CSV_NAME = 'brasileirao.csv'
+CSV_NAME = 'resources/brasileirao.csv'
 
 @app.route("/")
 def hello_world():
@@ -26,9 +28,7 @@ def inputs():
         hour = TimeConverter.str_to_float(request.form['hour'])
         round = int(request.form['round'])
         input_data = data_processor.format_input_data(home_team_id, visit_team_id, hour, round)
-        net = Network([len(input_data), 60, 9])
-        train, test = data_processor.generate_tuples()
-        net.SGD(train, 30, 10, 3.0, test_data=test)
+        net = Network([data_processor.get_input_size(), 60, 9])
         output = net.feedforward(input_data)
         bets = data_processor.output_to_list(output)
         session['bets'] = ','.join(bets)
@@ -39,6 +39,14 @@ def inputs():
 @app.route('/outputs', methods=['GET'])
 def outputs():
     return render_template('outputs.html', bets=session['bets'].split(','))
+
+@app.route('/train', methods=['GET', 'POST'])
+def train():
+    if request.method == 'POST':
+        train = Train(CSV_NAME)
+        train.train()
+        return render_template('train.html')
+    return render_template('train.html')
 
 if __name__ == "__main__":
     app.run(debug=True)
