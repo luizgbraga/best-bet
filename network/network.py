@@ -8,9 +8,9 @@ import json
 
 class Network(object):
 
-    def __init__(self, sizes):
+    def __init__(self, sizes, random=False):
         directory_path = Path("parameters")
-        if directory_path.exists():
+        if directory_path.exists() and not random:
             self.initialize_from_json(directory_path)
         else:
             self.num_layers = len(sizes)
