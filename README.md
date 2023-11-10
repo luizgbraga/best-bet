@@ -11,3 +11,14 @@ Therefore, we set out to create a flask app that uses big data and machine learn
 
 ## Instructions to use
 
+You can access our app in the link above:
+`https://best-bet-c199d07d0aa9.herokuapp.com/inputs`
+
+1. Select the teams, the start time of the match and the tournment round:
+<img width="1439" alt="Captura de Tela 2023-11-10 às 12 33 13" src="https://github.com/luizgbraga/best-bet/assets/101399070/d89d11a9-4d06-4621-90fd-b279547d348d">
+
+2. Click the confirm button
+3. You will be shown our suggestions to bet on
+4. You can train the app
+5. You can read about ouserselves at the About Page
+
