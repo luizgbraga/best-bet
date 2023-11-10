@@ -11,14 +11,24 @@ Therefore, we set out to create a flask app that uses big data and machine learn
 
 ## Instructions to use
 
-You can access our app in the link above:
-`https://best-bet-c199d07d0aa9.herokuapp.com/inputs`
+You can access our app in the link below:
+
+```
+https://best-bet-c199d07d0aa9.herokuapp.com/inputs
+```
 
 1. Select the teams, the start time of the match and the tournment round:
-<img width="1439" alt="Captura de Tela 2023-11-10 às 12 33 13" src="https://github.com/luizgbraga/best-bet/assets/101399070/d89d11a9-4d06-4621-90fd-b279547d348d">
+<img width="700" alt="Captura de Tela 2023-11-10 às 12 33 13" src="https://github.com/luizgbraga/best-bet/assets/101399070/d89d11a9-4d06-4621-90fd-b279547d348d">
 
-2. Click the confirm button
+2. Click at the confirm button
+<img width="700" alt="Captura de Tela 2023-11-10 às 19 13 10" src="https://github.com/luizgbraga/best-bet/assets/101399070/c229dbf2-36f3-4705-9ec2-394b80ee230e">
+
 3. You will be shown our suggestions to bet on
-4. You can train the app
-5. You can read about ouserselves at the About Page
+<img width="700" alt="Captura de Tela 2023-11-10 às 19 10 49" src="https://github.com/luizgbraga/best-bet/assets/101399070/ab5fc4dc-1f44-4cf3-9e28-ec9875ca49c9">
+
+- You can train the app and read about ouserselves clicking at the link on the top right corner
+<div>
+<img width="500" alt="Captura de Tela 2023-11-10 às 19 11 12" src="https://github.com/luizgbraga/best-bet/assets/101399070/9dbe36b7-e3dd-4623-a45e-2f5d41a87eb9">
+<img width="500" alt="Captura de Tela 2023-11-10 às 19 11 01" src="https://github.com/luizgbraga/best-bet/assets/101399070/9c07d419-cbab-4ca9-8649-b810edc0372b">
+</div>
 
