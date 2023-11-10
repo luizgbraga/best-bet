@@ -1,6 +1,10 @@
 import pandas as pd
 from util.time_converter import TimeConverter
 
+'''
+This class is responsible for collecting data from a CSV file
+It divides the data into training and testing data (70-30 split)
+'''
 class DataCollector():
     def __init__(self, csv_name):
         self.total_data = pd.read_csv(csv_name)
@@ -18,15 +22,19 @@ class DataCollector():
         df['hora'] = df['hora'].map(TimeConverter.str_to_float)/24
         df['rodada'] /= 38
 
-        testing_data = df.sample(frac=0.1)
-        training_data = df.drop(testing_data.index)
+        test = df.sample(frac=0.3)
+        train = df.drop(test.index)
 
         input_columns = ['hora', 'rodada'] + [f'id_{i + 1}' for i in range(len(self.club_ids))]
-        output_columns = ["bs", "mt1g", "mt2g", "mt3g", "mt4g", "mt5g", "dgt2", "dgt3", "zg"]
+        output_columns = ['bs', 'mt1g', 'mt2g', 'mt3g', 'mt4g', 'mt5g', 'dgt2', 'dgt3', 'zg']
 
-        return  {
-                    'input_training_data': training_data[input_columns],
-                    'output_training_data': training_data[output_columns],
-                    'input_testing_data': testing_data[input_columns],
-                    'output_testing_data': testing_data[output_columns]
-                }
+        test_data = {
+            'input': test[input_columns],
+            'output': test[output_columns]
+        }
+        train_data = {
+            'input': train[input_columns],
+            'output': train[output_columns]
+        }
+
+        return  train_data, test_data
