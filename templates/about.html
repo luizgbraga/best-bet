@@ -59,16 +59,20 @@
                 margin-bottom: 15px;
                 text-align: center;
             }
-            #container button {
+            .button {
                 width: 100px;
                 height: 30px;
                 background-color: cadetblue;
                 color: #fff;
-                border: none;
+                border: 1px solid cadetblue;
                 border-radius: 5px;
                 cursor: pointer;
+                text-decoration: none;
+                display: flex;
+                align-items: center;
+                justify-content: center;
             }
-            #container button:hover {
+            .button:hover {
                 background-color: #fff;
                 color: cadetblue;
                 border: 1px solid cadetblue;
@@ -96,7 +100,7 @@
                 <p>Estudante de Engenharia de Computação no Instituto Militar de Engenharia, estagiário na INOA e ex-membro da equipe de Desenvolvimento de Apps do IMEJúnior</p>
                 <h2>Alexandre de Paiva Almeida</h2>
                 <p>Estudante de Engenharia de Computação no Instituto Militar de Engenharia, estagiário na TutorMundi, presidente e ex-membro da equipe de Desenvolvimento de Apps do IMEJúnior</p>
-                <button id="button" href="/inputs">Voltar</button>
+                <a class="button" href="/inputs">Voltar</a>
             </div>
         </div>
     </body>
