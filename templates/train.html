@@ -106,7 +106,9 @@
                 stroke-dasharray: 242.6;
                 animation: fill-animation 1s cubic-bezier(1,1,1,1) 0s infinite;
             }
-
+            #container p {
+                text-align: center;
+            }
             @keyframes fill-animation{
             0% {
                 stroke-dasharray: 40 242.6;
@@ -138,6 +140,7 @@
         <div id="content">
             <div id="container">
                 <h2>Treinar a rede</h2>
+                <p>A escolha das apostas pode ser melhorada ao treinar a rede</p>
                 <form  action="{{ url_for('train') }}" method="POST" enctype="multipart/form-data">
                     <button type="submit">Treinar</button>
                 </form>
