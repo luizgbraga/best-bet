@@ -16,7 +16,7 @@ CSV_NAME = 'resources/brasileirao.csv'
 
 @app.route("/")
 def hello_world():
-    return "<p>Hello, World!</p>"
+    return redirect(url_for('inputs'))
 
 @app.route('/inputs', methods=['GET', 'POST'])
 def inputs():
