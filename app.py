@@ -1,7 +1,6 @@
 from flask import Flask
 from flask import request, render_template, redirect, url_for, redirect
 from flask import session
-import asyncio
 
 from data.collect_data import DataCollector
 from data.process_data import DataProcessor
