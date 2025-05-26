@@ -1,19 +1,19 @@
 class TimeConverter:
     @staticmethod
     def str_to_float(time):
-        hour, minute = time.split(':')
+        hour, minute = time.split(":")
         hour = int(hour)
         minute = int(minute)
 
-        return hour + (minute/60)
-    
+        return hour + (minute / 60)
+
     @staticmethod
     def all_times():
-        l = []
+        times = []
         for hour in range(9):
-            l.append(f"0{hour}:00")
-            l.append(f"0{hour}:30")
+            times.append(f"0{hour}:00")
+            times.append(f"0{hour}:30")
         for hour in range(9, 24):
-            l.append(f"{hour}:00")
-            l.append(f"{hour}:30")
-        return l
+            times.append(f"{hour}:00")
+            times.append(f"{hour}:30")
+        return times
